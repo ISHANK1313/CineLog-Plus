@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Star, Calendar, Clock, DollarSign, Plus, Check, Info, AlertCircle } from 'lucide-react';
-import { movieAPI, watchlistAPI, getEmbedUrl } from '../../services/api';
+import { movieAPI, watchlistAPI } from '../../services/api';
 import Loading from './Loading';
 
 const MovieDetailsModal = ({ movieId, onClose, isInWatchlist: initialWatchlistState, onWatchlistChange }) => {
@@ -10,6 +10,7 @@ const MovieDetailsModal = ({ movieId, onClose, isInWatchlist: initialWatchlistSt
   const [isInWatchlist, setIsInWatchlist] = useState(initialWatchlistState);
   const [addingToWatchlist, setAddingToWatchlist] = useState(false);
   const [showDeepDetails, setShowDeepDetails] = useState(false);
+  const [embedUrl, setEmbedUrl] = useState(null);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -21,6 +22,13 @@ const MovieDetailsModal = ({ movieId, onClose, isInWatchlist: initialWatchlistSt
 
         if (result.success) {
           setMovie(result.data);
+
+          if (result.data.imdb_id) {
+            const embedResult = await movieAPI.fetchEmbedUrl(result.data.imdb_id);
+            if (embedResult.success) {
+              setEmbedUrl(embedResult.data);
+            }
+          }
         } else {
           setError(result.message || 'Failed to load movie details');
         }
@@ -313,18 +321,20 @@ const MovieDetailsModal = ({ movieId, onClose, isInWatchlist: initialWatchlistSt
           </div>
 
           {/* Watch Movie Section */}
-          <div className="mt-8 pt-6 border-t border-dark-600">
-            <h3 className="text-xl font-semibold mb-4 text-white">Watch Movie</h3>
-            <div className="aspect-video w-full bg-black rounded-xl overflow-hidden shadow-lg border border-dark-600">
-              <iframe
-                src={getEmbedUrl(movie.id)}
-                className="w-full h-full"
-                frameBorder="0"
-                allowFullScreen
-                title={`Watch ${movie.title}`}
-              />
+          {embedUrl && (
+            <div className="mt-8 pt-6 border-t border-dark-600">
+              <h3 className="text-xl font-semibold mb-4 text-white">Watch Movie</h3>
+              <div className="aspect-video w-full bg-black rounded-xl overflow-hidden shadow-lg border border-dark-600">
+                <iframe
+                  src={embedUrl}
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allowFullScreen
+                  title={`Watch ${movie.title}`}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

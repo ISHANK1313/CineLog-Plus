@@ -15,7 +15,7 @@ import static javax.print.attribute.standard.ReferenceUriSchemesSupported.HTTP;
 public class CineController {
     @Autowired
     private CineService service;
-    @Value("${vidsrc.api}")
+    @Value("${vidsrc.key}")
     private String vidapi;
     @GetMapping("/movies")
     public ResponseEntity<?> getMovieDetails(@ModelAttribute SearchMovieDto searchMovieDto){
