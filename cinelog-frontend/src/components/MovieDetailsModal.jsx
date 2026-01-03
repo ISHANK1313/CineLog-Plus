@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Star, Calendar, Clock, DollarSign, Plus, Check, Info, AlertCircle } from 'lucide-react';
-import { movieAPI, watchlistAPI } from '../../services/api';
+import { movieAPI, watchlistAPI, getEmbedUrl } from '../../services/api';
 import Loading from './Loading';
 
 const MovieDetailsModal = ({ movieId, onClose, isInWatchlist: initialWatchlistState, onWatchlistChange }) => {
@@ -309,6 +309,20 @@ const MovieDetailsModal = ({ movieId, onClose, isInWatchlist: initialWatchlistSt
                   </>
                 )}
               </button>
+            </div>
+          </div>
+
+          {/* Watch Movie Section */}
+          <div className="mt-8 pt-6 border-t border-dark-600">
+            <h3 className="text-xl font-semibold mb-4 text-white">Watch Movie</h3>
+            <div className="aspect-video w-full bg-black rounded-xl overflow-hidden shadow-lg border border-dark-600">
+              <iframe
+                src={getEmbedUrl(movie.id)}
+                className="w-full h-full"
+                frameBorder="0"
+                allowFullScreen
+                title={`Watch ${movie.title}`}
+              />
             </div>
           </div>
         </div>

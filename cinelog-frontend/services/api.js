@@ -187,4 +187,9 @@ export const watchlistAPI = {
   },
 };
 
+// Helper for video embed
+export const getEmbedUrl = (tmdbId) => {
+  return `https://vidsrc.xyz/embed/movie/${tmdbId}`;
+};
+
 export default api;
