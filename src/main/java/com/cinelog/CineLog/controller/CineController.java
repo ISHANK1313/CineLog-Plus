@@ -1,0 +1,66 @@
+package com.cinelog.CineLog.controller;
+
+import com.cinelog.CineLog.dto.*;
+import com.cinelog.CineLog.exception.MovieServiceException;
+import com.cinelog.CineLog.service.CineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import static javax.print.attribute.standard.ReferenceUriSchemesSupported.HTTP;
+
+@RestController
+@RequestMapping("/api")
+public class CineController {
+    @Autowired
+    private CineService service;
+    @Value("${vidsrc.api}")
+    private String vidapi;
+    @GetMapping("/movies")
+    public ResponseEntity<?> getMovieDetails(@ModelAttribute SearchMovieDto searchMovieDto){
+        try {
+            return ResponseEntity.ok(service.searchMovie(searchMovieDto));
+        } catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/trending")
+    public ResponseEntity<?> getTrendingTodayMovies(@ModelAttribute TodayTrendingDto todayTrendingDto){
+        try{
+            return ResponseEntity.ok(service.getTodayTrendingMovies(todayTrendingDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<?> getPopularMovies(@ModelAttribute PopularMovieDto popularMovieDto){
+        try{
+            return ResponseEntity.ok(service.getPopularMovies(popularMovieDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+
+    @GetMapping("/movie/{movie_id}")
+    public ResponseEntity<?> getDeepMovieDetails(@PathVariable Integer movie_id, @ModelAttribute MovieQueryDto movieQueryDto){
+        try{
+            return ResponseEntity.ok(service.getDeepMovieDetails(movie_id, movieQueryDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+    @GetMapping("/movie/embed/{imdbId}")
+    public String getEmbedUrl(@PathVariable String imdbId) {
+        return vidapi + imdbId;
+    }
+}
