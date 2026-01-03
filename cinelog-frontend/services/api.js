@@ -137,6 +137,18 @@ export const movieAPI = {
       };
     }
   },
+
+  fetchEmbedUrl: async (imdbId) => {
+    try {
+      const response = await api.get(`/api/movie/embed/${imdbId}`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data || 'Failed to fetch embed URL',
+      };
+    }
+  },
 };
 
 // Watchlist APIs
