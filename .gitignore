@@ -103,7 +103,7 @@ cinelog-frontend/dist-ssr/
 cinelog-frontend/build/
 
 # Environment files
-cinelog-frontend/.env
+
 cinelog-frontend/.env.local
 cinelog-frontend/.env.production
 
