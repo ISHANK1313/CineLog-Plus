@@ -92,11 +92,11 @@ Experience the power of **CineLog Plus** directly in your browser. Our new strea
 
 ```mermaid
 graph LR
-    User[User] -->|HTTPS| Frontend[React App (Netlify)]
-    Frontend -->|JSON/REST| Backend[Spring Boot API (Back4App)]
-    Backend -->|SQL| DB[(PostgreSQL Supabase)]
-    Backend -->|HTTP| TMDB[TMDB API]
-    Backend -->|Embed| VidSrc[Streaming Source]
+    User["User"] -->|HTTPS| Frontend["React App (Netlify)"]
+    Frontend -->|JSON/REST| Backend["Spring Boot API (Back4App)"]
+    Backend -->|SQL| DB[("PostgreSQL (Supabase)")]
+    Backend -->|HTTP| TMDB["TMDB API"]
+    Backend -->|Embed| VidSrc["Streaming Source"]
 ```
 
 ---
@@ -105,23 +105,43 @@ graph LR
 
 ```bash
 .
-├── cinelog-frontend/          # React Frontend
-│   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   ├── context/           # Global state (Auth)
-│   │   ├── pages/             # Application routes (Home, Login, etc.)
-│   │   └── services/          # API integration (Axios)
-│   ├── vite.config.js         # Build configuration
-│   └── tailwind.config.js     # Styling configuration
-├── src/main/java/com/cinelog/ # Spring Boot Backend
-│   ├── controller/            # REST Endpoints
-│   ├── dto/                   # Data Transfer Objects
-│   ├── entity/                # Database Models
-│   ├── repository/            # JPA Data Access
-│   ├── service/               # Business Logic
-│   └── security/              # JWT & Auth Config
-├── screenshots/               # Project images
-└── Dockerfile                 # Containerization
+├── cinelog-frontend/                  # Frontend Root
+│   ├── src/
+│   │   ├── components/                # UI Components
+│   │   │   ├── ErrorMessage.jsx       # Error alerts
+│   │   │   ├── Loading.jsx            # Loading spinners
+│   │   │   ├── MovieCard.jsx          # Movie display card
+│   │   │   ├── MovieDetailsModal.jsx  # Detail view modal
+│   │   │   ├── Navbar.jsx             # Navigation
+│   │   │   ├── ProtectedRoute.jsx     # Route guard
+│   │   │   └── SuccessMessage.jsx     # Success toasts
+│   │   ├── context/                   # State Management
+│   │   │   └── AuthContext.jsx        # Authentication context
+│   │   ├── pages/                     # Page Views
+│   │   │   ├── Home.jsx               # Landing page
+│   │   │   ├── Login.jsx              # Sign in
+│   │   │   ├── Search.jsx             # Search results
+│   │   │   ├── Signup.jsx             # Registration
+│   │   │   └── Watchlist.jsx          # User watchlist
+│   │   ├── services/                  # API Services
+│   │   │   └── api.js                 # Axios instance & calls
+│   │   ├── App.jsx                    # Main App wrapper
+│   │   └── main.jsx                   # Entry point
+│   ├── vite.config.js                 # Vite config
+│   └── tailwind.config.js             # Tailwind config
+├── src/main/java/com/cinelog/         # Backend Root
+│   ├── controller/                    # REST Controllers
+│   ├── dto/                           # Data Transfer Objects
+│   ├── entity/                        # Database Entities
+│   ├── repository/                    # Spring Data Repositories
+│   ├── service/                       # Business Logic Services
+│   └── security/                      # Security Configuration
+├── src/main/resources/
+│   ├── application.properties         # App config
+│   └── application-prod.properties    # Production config
+├── screenshots/                       # Documentation images
+├── Dockerfile                         # Docker setup
+└── pom.xml                            # Maven dependencies
 ```
 
 ---
@@ -368,16 +388,8 @@ Contributions are what make the open source community such an amazing place to l
 
 ## 📞 Contact & Support
 
-*   **Developer:** [@ISHANK1313](https://github.com/ISHANK1313)
-*   **Issues:** [GitHub Issues](https://github.com/ISHANK1313/CineLog/issues)
-*   **Support:** Give a ⭐ if you like this project!
-
----
-
-<div align="center">
-
-**Licensed under MIT**
-
-*Frontend vibe-coded with Claude Sonnet 4.5*
-
-</div>
+🐛 Issues: [GitHub Issues](https://github.com/ISHANK1313/CineLog/issues)
+💬 Discussions: [GitHub Discussions](https://github.com/ISHANK1313/CineLog/discussions)
+👤 Developer: [@ISHANK1313](https://github.com/ISHANK1313)
+⭐ Star this repo if you found it helpful!
+Built with Spring Boot • Powered by TMDB API • Frontend vibe-coded with Claude Sonnet 4.5
