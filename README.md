@@ -102,7 +102,7 @@ flowchart LR
     TMDB -->|7. Return List| API
     API -->|8. Return Movies| User
 
-    User -->|9. GET /embed/{id}| API
+    User -->|9. GET /embed/:id| API
     API -->|10. Construct URL| API
     API -->|11. Return Embed URL| User
     User -->|12. Stream Video| VidSrc["Streaming Server"]
