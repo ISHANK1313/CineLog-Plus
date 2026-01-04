@@ -86,10 +86,10 @@ See **CineLog Plus** (codenamed Zenith) in action. Experience the seamless trans
 ## 🎬 How It Works
 
 ```mermaid
-graph LR
+flowchart LR
     User["Browser (React)"] -->|1. POST /signup| API["CineLog REST API"]
     API -->|Hash Password| API
-    API -->|Save User| DB[("PostgreSQL")]
+    API -->|Save User| DB[(PostgreSQL)]
     API -->|2. Return Success| User
 
     User -->|3. POST /login| API
