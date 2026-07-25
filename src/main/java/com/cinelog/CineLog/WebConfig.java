@@ -17,10 +17,10 @@ public class WebConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Allow these origins
-        config.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000",
-                "http://localhost:5173",
-                "https://venerable-puffpuff-bb8dcc.netlify.app"
+        config.setAllowedOriginPatterns(Arrays.asList(
+                "http://localhost:*",
+                "https://*.netlify.app",
+                "https://*.vercel.app"
         ));
 
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

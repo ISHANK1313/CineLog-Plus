@@ -2,82 +2,266 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  * {
-    @apply box-border;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  body {
-    @apply antialiased;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #141414;
+  color: white;
+}
 
-  ::-webkit-scrollbar-track {
-    @apply bg-dark-800;
-  }
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-dark-600 rounded-full;
-  }
+::-webkit-scrollbar-track {
+  background: #141414;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-dark-700; /* Or bg-primary-500, which also exists */
+::-webkit-scrollbar-thumb {
+  background: #808080;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b3b3b3;
+}
+
+.carousel-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel-track::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.carousel-track::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.carousel-track {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+}
+
+/* Netflix-style buttons */
+.btn-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background-color: white;
+  color: black;
+  font-weight: 700;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-play:hover {
+  opacity: 0.8;
+}
+
+.btn-play svg {
+  fill: black;
+}
+
+.btn-more-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background-color: rgba(34, 34, 34, 0.7);
+  color: white;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+  backdrop-filter: blur(4px);
+}
+
+.btn-more-info:hover {
+  background-color: #222;
+}
+
+.btn-netflix {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 2rem;
+  background-color: #E50914;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-netflix:hover {
+  background-color: #F40612;
+}
+
+.btn-netflix-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background-color: rgba(34, 34, 34, 0.7);
+  color: white;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 1px solid #2A2A2A;
+}
+
+.btn-netflix-secondary:hover {
+  background-color: #222;
+}
+
+/* Input fields */
+.input-netflix {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #2A2A2A;
+  color: white;
+  border: 1px solid #2A2A2A;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.input-netflix:focus {
+  border-color: white;
+  box-shadow: 0 0 0 1px white;
+}
+
+.input-netflix::placeholder {
+  color: #808080;
+}
+
+/* Netflix card hover effect */
+.netflix-card {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.netflix-card:hover {
+  z-index: 10;
+  transform: scale(1.05);
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Section headers */
+.section-header {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-header {
+    font-size: 1.25rem;
   }
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-primary-500/50;
-  }
-
-  .btn-secondary {
-    @apply bg-dark-700 hover:bg-dark-600 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95;
-  }
-
-  .input-field {
-    @apply w-full bg-dark-700 text-white border border-dark-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300;
-  }
-
-  .card {
-    @apply bg-dark-800 rounded-xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-primary-500/10;
-  }
-
-  .movie-card {
-    @apply bg-dark-800 rounded-xl overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/20 cursor-pointer;
-  }
-
-  .glass-effect {
-    @apply bg-dark-800/50 backdrop-blur-md border border-dark-700;
-  }
-
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-pink-500;
-  }
-
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-8 gradient-text;
-  }
+/* Hero vignette gradient */
+.hero-vignette {
+  background: linear-gradient(
+    to top,
+    rgba(20, 20, 20, 1) 0%,
+    rgba(20, 20, 20, 0.85) 40%,
+    rgba(20, 20, 20, 0.5) 70%,
+    rgba(20, 20, 20, 0) 100%
+  );
 }
 
-@layer utilities {
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 3s ease infinite;
-  }
+/* Badge */
+.badge-netflix {
+  display: inline-block;
+  background-color: #E50914;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.125rem;
+}
 
-  @keyframes gradient {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
+/* Loading skeleton */
+.skeleton {
+  background-color: #2A2A2A;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
 
-  .text-shadow {
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Animations */
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.text-shadow-lg {
+  text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@keyframes gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

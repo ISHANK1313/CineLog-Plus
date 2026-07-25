@@ -5,17 +5,12 @@ const SuccessMessage = ({ message, onClose }) => {
   if (!message) return null;
 
   return (
-    <div className="bg-green-500/10 border border-green-500 text-green-500 px-4 py-3 rounded-lg mb-4 flex items-center justify-between animate-slide-up">
-      <div className="flex items-center">
-        <CheckCircle className="w-5 h-5 mr-2" />
-        <span>{message}</span>
-      </div>
+    <div className="mb-4 bg-green-500/20 border border-green-500 rounded-lg px-4 py-3 flex items-start gap-2">
+      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+      <span className="text-sm text-white flex-1">{message}</span>
       {onClose && (
-        <button
-          onClick={onClose}
-          className="text-green-500 hover:text-green-400 transition-colors"
-        >
-          <X className="w-5 h-5" />
+        <button onClick={onClose} className="text-white/60 hover:text-white transition-colors">
+          <X className="w-4 h-4" />
         </button>
       )}
     </div>

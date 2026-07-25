@@ -64,4 +64,61 @@ public class CineController {
     public String getEmbedUrl(@PathVariable String imdbId) {
         return vidapi + imdbId;
     }
+
+    // ====== TV SHOW ENDPOINTS ======
+
+    @GetMapping("/tv/trending")
+    public ResponseEntity<?> getTrendingTvShows(@ModelAttribute TodayTrendingDto todayTrendingDto){
+        try{
+            return ResponseEntity.ok(service.getTrendingTvShows(todayTrendingDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+
+    @GetMapping("/tv/popular")
+    public ResponseEntity<?> getPopularTvShows(@ModelAttribute PopularMovieDto popularMovieDto){
+        try{
+            return ResponseEntity.ok(service.getPopularTvShows(popularMovieDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+
+    @GetMapping("/tv/{tv_id}")
+    public ResponseEntity<?> getTvShowDetails(@PathVariable Integer tv_id, @ModelAttribute MovieQueryDto movieQueryDto){
+        try{
+            return ResponseEntity.ok(service.getTvShowDetails(tv_id, movieQueryDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+
+    @GetMapping("/tv/search")
+    public ResponseEntity<?> searchTvShows(@ModelAttribute SearchMovieDto searchMovieDto){
+        try{
+            return ResponseEntity.ok(service.searchTvShows(searchMovieDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
+
+    @GetMapping("/search/multi")
+    public ResponseEntity<?> searchMulti(@ModelAttribute SearchMovieDto searchMovieDto){
+        try{
+            return ResponseEntity.ok(service.searchMulti(searchMovieDto));
+        }
+        catch (MovieServiceException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error : "+e.getMessage());
+        }
+    }
 }

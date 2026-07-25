@@ -32,7 +32,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS).permitAll() // <-- ADD THIS LINE
+                        .requestMatchers("/api/trending").permitAll()
+                        .requestMatchers("/api/popular").permitAll()
+                        .requestMatchers("/api/movies").permitAll()
+                        .requestMatchers("/api/movie/**").permitAll()
+                        .requestMatchers("/api/tv/**").permitAll()
+                        .requestMatchers("/api/search/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

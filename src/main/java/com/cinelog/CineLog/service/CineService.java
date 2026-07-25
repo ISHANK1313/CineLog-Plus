@@ -222,6 +222,172 @@ public class CineService {
         }
     }
 
+    // ====== TV SHOW ENDPOINTS ======
+
+    public MovieListResponse searchTvShows(SearchMovieDto searchMovieDto) {
+        try {
+            String base = "https://api.themoviedb.org/3/search/tv";
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(base)
+                    .queryParam("api_key", apiKey)
+                    .queryParam("query", searchMovieDto.getQuery())
+                    .queryParam("include_adult", searchMovieDto.isInclude_adult())
+                    .queryParam("language", searchMovieDto.getLanguage())
+                    .queryParam("page", searchMovieDto.getPage());
+            String url = builder.toUriString();
+            MovieListResponse response = restTemplate.getForObject(url, MovieListResponse.class);
+            if (response == null || response.getResults() == null) return new MovieListResponse();
+            addGenresToMovies(response.getResults());
+            return response;
+        } catch (Exception e) {
+            throw new MovieServiceException("Failed to search TV shows: " + e.getMessage(), e);
+        }
+    }
+
+    public MovieListResponse searchMulti(SearchMovieDto searchMovieDto) {
+        try {
+            String base = "https://api.themoviedb.org/3/search/multi";
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(base)
+                    .queryParam("api_key", apiKey)
+                    .queryParam("query", searchMovieDto.getQuery())
+                    .queryParam("include_adult", searchMovieDto.isInclude_adult())
+                    .queryParam("language", searchMovieDto.getLanguage())
+                    .queryParam("page", searchMovieDto.getPage());
+            String url = builder.toUriString();
+            MovieListResponse response = restTemplate.getForObject(url, MovieListResponse.class);
+            if (response == null || response.getResults() == null) return new MovieListResponse();
+            addGenresToMovies(response.getResults());
+            return response;
+        } catch (Exception e) {
+            throw new MovieServiceException("Failed to multi-search: " + e.getMessage(), e);
+        }
+    }
+
+    public MovieListResponse getTrendingTvShows(TodayTrendingDto todayTrendingDto){
+        try {
+            String base = "https://api.themoviedb.org/3/trending/tv/day";
+            UriComponentsBuilder builder=UriComponentsBuilder.fromHttpUrl(base)
+                    .queryParam("api_key", apiKey)
+                    .queryParam("language",todayTrendingDto.getLanguage());
+
+            String url = builder.toUriString();
+            System.out.println("Calling TMDB API: " + url.replace(apiKey, "***"));
+
+            MovieListResponse response = restTemplate.getForObject(url, MovieListResponse.class);
+            if (response == null || response.getResults() == null) {
+                return new MovieListResponse();
+            }
+            addGenresToMovies(response.getResults());
+            return response;
+        }
+        catch (HttpClientErrorException e) {
+            System.err.println("TMDB API Client Error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            throw new MovieServiceException("Failed to fetch trending TV shows", e);
+        } catch (HttpServerErrorException e) {
+            System.err.println("TMDB API Server Error: " + e.getStatusCode());
+            throw new MovieServiceException("TMDB service is temporarily unavailable", e);
+        } catch (RestClientException e) {
+            System.err.println("Network error while calling TMDB API: " + e.getMessage());
+            throw new MovieServiceException("Network error. Please check your connection", e);
+        } catch (Exception e){
+            System.err.println("Unexpected error in getTrendingTvShows: " + e.getMessage());
+            e.printStackTrace();
+            throw new MovieServiceException("Can't find trending TV shows...",e);
+        }
+    }
+
+    public MovieListResponse getPopularTvShows(PopularMovieDto popularMovieDto){
+        try {
+            if (popularMovieDto.getPage() != null && popularMovieDto.getPage() > 500) {
+                popularMovieDto.setPage(500);
+            }
+
+            String base = "https://api.themoviedb.org/3/tv/popular";
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(base)
+                    .queryParam("api_key", apiKey)
+                    .queryParam("language", popularMovieDto.getLanguage())
+                    .queryParam("page", popularMovieDto.getPage());
+
+            if(popularMovieDto.getRegion() != null){
+                builder.queryParam("region", popularMovieDto.getRegion());
+            }
+
+            String url = builder.toUriString();
+            System.out.println("Calling TMDB API: " + url.replace(apiKey, "***"));
+
+            MovieListResponse response = restTemplate.getForObject(url, MovieListResponse.class);
+
+            if (response == null || response.getResults() == null) {
+                return new MovieListResponse();
+            }
+
+            addGenresToMovies(response.getResults());
+            return response;
+        }
+        catch (HttpClientErrorException e) {
+            System.err.println("TMDB API Client Error: " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            throw new MovieServiceException("Failed to fetch popular TV shows", e);
+        } catch (HttpServerErrorException e) {
+            System.err.println("TMDB API Server Error: " + e.getStatusCode());
+            throw new MovieServiceException("TMDB service is temporarily unavailable", e);
+        } catch (RestClientException e) {
+            System.err.println("Network error while calling TMDB API: " + e.getMessage());
+            throw new MovieServiceException("Network error. Please check your connection", e);
+        } catch (Exception e){
+            System.err.println("Unexpected error in getPopularTvShows: " + e.getMessage());
+            e.printStackTrace();
+            throw new MovieServiceException("Can't find popular TV shows", e);
+        }
+    }
+
+    public MovieDetailDto getTvShowDetails(Integer tvId, MovieQueryDto movieQueryDto){
+        try {
+            if (tvId == null || tvId <= 0) {
+                throw new MovieServiceException("Invalid TV show ID");
+            }
+
+            String base = "https://api.themoviedb.org/3/tv/{tv_id}";
+
+            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(base)
+                    .queryParam("api_key", apiKey)
+                    .queryParam("language", movieQueryDto.getLanguage());
+
+            if (movieQueryDto.getAppend_to_response() != null) {
+                builder.queryParam("append_to_response", movieQueryDto.getAppend_to_response());
+            }
+
+            String url = builder.buildAndExpand(tvId).toUriString();
+            System.out.println("Calling TMDB API for TV details: " + url.replace(apiKey, "***"));
+
+            MovieDetailDto response = restTemplate.getForObject(url, MovieDetailDto.class);
+
+            if (response == null) {
+                System.err.println("Received null response from TMDB API for TV ID: " + tvId);
+                throw new MovieServiceException("TV show not found");
+            }
+
+            return response;
+
+        } catch (HttpClientErrorException e) {
+            System.err.println("TMDB API Client Error for TV " + tvId + ": " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new MovieServiceException("TV show not found", e);
+            }
+            throw new MovieServiceException("Failed to fetch TV show details", e);
+        } catch (HttpServerErrorException e) {
+            System.err.println("TMDB API Server Error for TV " + tvId + ": " + e.getStatusCode());
+            throw new MovieServiceException("TMDB service is temporarily unavailable", e);
+        } catch (RestClientException e) {
+            System.err.println("Network error while fetching TV " + tvId + ": " + e.getMessage());
+            throw new MovieServiceException("Network error. Please check your connection", e);
+        } catch (MovieServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            System.err.println("Unexpected error in getTvShowDetails for TV " + tvId + ": " + e.getMessage());
+            e.printStackTrace();
+            throw new MovieServiceException("Failed to fetch TV show details", e);
+        }
+    }
+
     @PostConstruct
     public void getGenreMap(){
         try {
