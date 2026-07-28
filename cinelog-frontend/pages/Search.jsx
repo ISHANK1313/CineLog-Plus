@@ -66,7 +66,7 @@ const Search = () => {
               <input
                 type="text" value={query} onChange={(e) => setQuery(e.target.value)}
                 placeholder="Titles, people, genres" autoFocus
-                className="w-full bg-netflix-dark text-white border-2 border-netflix-dark-light rounded px-5 py-4 pl-14 text-lg focus:outline-none focus:border-white transition-colors duration-200 placeholder-netflix-gray"
+                className="w-full bg-netflix-dark text-black border-2 border-netflix-dark-light rounded px-5 py-4 pl-14 text-lg focus:outline-none focus:border-white transition-colors duration-200 placeholder-netflix-gray"
               />
               <SearchIcon className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-netflix-gray" />
               {query && (

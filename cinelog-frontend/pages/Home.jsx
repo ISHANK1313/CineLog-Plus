@@ -140,7 +140,7 @@ const Home = () => {
         />
       )}
 
-      <div className="relative z-10 -mt-20 md:-mt-32 pb-32">
+      <div className={`relative z-10 ${heroMovie ? '-mt-20 md:-mt-32' : 'pt-32'} pb-32`}>
         <div className="space-y-8 md:space-y-12">
           {SECTIONS.map(({ key, label, type, loadMore: hasLoadMore }) => {
             const movies = rows[key];
