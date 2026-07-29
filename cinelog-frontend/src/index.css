@@ -199,7 +199,7 @@ body {
 .hero-vignette {
   background: linear-gradient(
     to top,
-    rgba(20, 20, 20, 1) 0%,
+    #141414 0%,
     rgba(20, 20, 20, 0.85) 40%,
     rgba(20, 20, 20, 0.5) 70%,
     rgba(20, 20, 20, 0) 100%
@@ -264,4 +264,7 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+.bg-card-gradient {
+  background: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0.8) 50%, rgba(20, 20, 20, 0) 100%);
 }

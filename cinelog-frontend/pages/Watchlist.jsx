@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bookmark, Trash2, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { watchlistAPI } from '../services/api';
+import MovieCard from '../src/components/MovieCard';
 import MovieDetailsModal from '../src/components/MovieDetailsModal';
 import Loading from '../src/components/Loading';
 import ErrorMessage from '../src/components/ErrorMessage';

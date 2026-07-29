@@ -3,10 +3,22 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
       colors: {
+        netflix: {
+          black: '#141414',
+          dark: '#181818',
+          'dark-light': '#2A2A2A',
+          'dark-hover': '#333333',
+          red: '#E50914',
+          'red-hover': '#F40612',
+          gray: '#808080',
+          'gray-light': '#B3B3B3',
+        },
         primary: {
           50: '#fef2f2',
           100: '#fee2e2',
